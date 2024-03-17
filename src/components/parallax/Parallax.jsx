@@ -13,19 +13,30 @@ const Parallax = ({ type }) => {
   const yText = useTransform(scrollYProgress, [0, 1], ["0%", "500%"]);
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
+  let backgroundGradient;
+  let titleText;
+
+  if (type === "Servicios") {
+    backgroundGradient = "linear-gradient(180deg, #111132, #0c0c1d)";
+    titleText = "Experiencia";
+  } else if (type === "skills") {
+    backgroundGradient = "linear-gradient(180deg, #111132, #505064)";
+    titleText = "Skills";
+  } else {
+    backgroundGradient = "linear-gradient(180deg, #111132, #505064)";
+    titleText = "Mis proyectos";
+  }
+
   return (
     <div
       className="parallax"
       ref={ref}
       style={{
-        background:
-          type === "Servicios"
-            ? "linear-gradient(180deg, #111132, #0c0c1d)"
-            : "linear-gradient(180deg, #111132, #505064)",
+        background: backgroundGradient,
       }}
     >
       <motion.h1 style={{ y: yText }}>
-        {type === "Servicios" ? "Experiencia" : " Mis proyectos"}
+        {titleText}
       </motion.h1>
       <motion.div className="mountains"></motion.div>
       <motion.div

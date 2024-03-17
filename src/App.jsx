@@ -7,6 +7,7 @@ import Navbar from "./components/navbar/Navbar";
 import Parallax from "./components/parallax/Parallax";
 import Portfolio from "./components/portfolio/Portfolio";
 import Services from "./components/services/Services";
+import Skill from "./components/skills/skills";
 import ParticlesComponent from "./components/particles/particles";
 import Particles from "@tsparticles/react";
 
@@ -24,6 +25,12 @@ const App = () => {
       <section>
         <Services />
       </section>
+      <section id="skills">
+      <Parallax type="skills" />
+      </section>
+      <section>
+        <Skill/>
+      </section>
       <section id="Porfolio">
         <Parallax type="Porfolio" />
       </section>
@@ -31,9 +38,6 @@ const App = () => {
       <section id="Contacto">
         <Contact />
       </section>
-   {/*   <section id="Skills">
-        <ParticlesComponent id="particles-skills" />
-      </section> */}
     </div>
   );
 };
