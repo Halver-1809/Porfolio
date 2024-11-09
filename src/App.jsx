@@ -1,4 +1,3 @@
-import Test from "./Test";
 import "./app.scss";
 import Contact from "./components/contact/Contact";
 import Cursor from "./components/cursor/Cursor";
@@ -7,10 +6,7 @@ import Navbar from "./components/navbar/Navbar";
 import Parallax from "./components/parallax/Parallax";
 import Portfolio from "./components/portfolio/Portfolio";
 import Services from "./components/services/Services";
-import Skill from "./components/skills/skills";
-import ParticlesComponent from "./components/particles/particles";
-import Particles from "@tsparticles/react";
-
+import Tecno from "./components/tecno/tecno";
 const App = () => {
   return (
     <div>
@@ -19,25 +15,20 @@ const App = () => {
         <Navbar />
         <Hero />
       </section>
+      <section id="sumer">
+        <Tecno/> 
+      </section>
       <section id="Servicios">
         <Parallax type="Servicios" />
       </section>
-      <section>
+      <section id="Skills">
         <Services />
-      </section>
-      <section id="skills">
-      <Parallax type="skills" />
-      </section>
-      <section>
-        <Skill/>
-      </section>
-      <section id="Porfolio">
-        <Parallax type="Porfolio" />
-      </section>
-      <Portfolio />
+      </section >
+      <Portfolio/>
       <section id="Contacto">
         <Contact />
       </section>
+
     </div>
   );
 };
