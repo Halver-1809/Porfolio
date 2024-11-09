@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import {
@@ -45,25 +45,23 @@ const skillIcons = [
 
 const Sphere = () => {
   const ref = useRef<any>();
-  const [rotation, setRotation] = useState([0, 0]);
 
-  useFrame(({ mouse }) => {
+  useFrame(({ clock }) => {
     if (ref.current) {
-      const targetRotationX = mouse.y * 0.1;
-      const targetRotationY = mouse.x * 0.1;
-
-      setRotation((prev) => [
-        prev[0] + (targetRotationX - prev[0]) * 0.1,
-        prev[1] + (targetRotationY - prev[1]) * 0.1,
-      ]);
-
-      ref.current.rotation.x = rotation[0];
-      ref.current.rotation.y = rotation[1];
+      const elapsed = clock.getElapsedTime();
+      ref.current.rotation.y = elapsed * 0.1; // Rotación lenta de la esfera completa
+      ref.current.scale.setScalar(1 + Math.sin(elapsed * 2) * 0.05); // Pulsación suave
     }
   });
 
   return (
     <group ref={ref} scale={0.6}>
+      {/* Esfera de neón con borde pulsante */}
+      <mesh>
+        <sphereGeometry args={[5.5, 32, 32]} />
+        <meshBasicMaterial color="#17c3bb" wireframe={true} />
+      </mesh>
+
       {skillIcons.map((skill, index) => {
         const phi = Math.acos(-1 + (2 * index) / skillIcons.length);
         const theta = Math.sqrt(skillIcons.length * Math.PI) * phi;
@@ -82,11 +80,19 @@ const Sphere = () => {
                 color: skill.color,
                 fontSize: "2rem",
                 textAlign: "center",
-                textShadow: `0 0 10px ${skill.color}, 0 0 20px ${skill.color}, 0 0 30px #17c3bb, 0 0 40px #17c3bb`,
+                textShadow: `0 0 10px ${skill.color}, 0 0 20px ${skill.color}`,
+                animation: "rotateIcon 5s linear infinite", // Rotación lenta de cada ícono
               }}
             >
               {skill.component}
-              <div style={{ fontSize: "0.6rem", marginTop: "0.2rem", color: "#fff" }}>
+              <div
+                style={{
+                  fontSize: "0.6rem",
+                  marginTop: "0.2rem",
+                  color: "#fff",
+                  textShadow: "0 0 10px #17c3bb, 0 0 20px #17c3bb",
+                }}
+              >
                 {skill.name}
               </div>
             </div>
@@ -99,7 +105,16 @@ const Sphere = () => {
 
 const SkillWorld3D: React.FC = () => {
   return (
-    <div style={{ display: "flex", height: "100vh", width: "100vw", backgroundColor: "#0a0a0a" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        width: "100vw",
+        background: "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
+        animation: "gradientBackground 15s ease infinite",
+      }}
+    >
+      {/* Texto Neon a la izquierda */}
       <div
         style={{
           flex: 1,
@@ -110,11 +125,13 @@ const SkillWorld3D: React.FC = () => {
           fontSize: "4rem",
           fontWeight: "bold",
           textShadow: "0 0 15px #17c3bb, 0 0 30px #17c3bb",
+          animation: "pulseNeon 2s ease-in-out infinite", // Pulsación del texto
         }}
       >
         Mis Skills
       </div>
 
+      {/* Esfera de Habilidades 3D a la derecha */}
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Canvas>
           <OrbitControls enableZoom={false} />
@@ -123,6 +140,40 @@ const SkillWorld3D: React.FC = () => {
           <Sphere />
         </Canvas>
       </div>
+
+      {/* Estilos para las animaciones */}
+      <style jsx>{`
+        @keyframes rotateIcon {
+          from {
+            transform: rotateY(0deg);
+          }
+          to {
+            transform: rotateY(360deg);
+          }
+        }
+
+        @keyframes gradientBackground {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        @keyframes pulseNeon {
+          0%,
+          100% {
+            text-shadow: 0 0 15px #17c3bb, 0 0 30px #17c3bb;
+          }
+          50% {
+            text-shadow: 0 0 20px #17c3bb, 0 0 40px #17c3bb;
+          }
+        }
+      `}</style>
     </div>
   );
 };
