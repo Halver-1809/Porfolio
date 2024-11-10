@@ -78,13 +78,15 @@ const Sphere = () => {
             <div
               style={{
                 color: skill.color,
-                fontSize: "2rem",
+                fontSize: "3rem",
                 textAlign: "center",
                 textShadow: `0 0 10px ${skill.color}, 0 0 20px ${skill.color}`,
                 animation: "rotateIcon 5s linear infinite", // Rotación lenta de cada ícono
               }}
             >
+            <div style={{ transform: "scale(1.5)" }}>
               {skill.component}
+            </div>
               <div
                 style={{
                   fontSize: "0.6rem",
